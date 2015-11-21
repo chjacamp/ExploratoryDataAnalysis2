@@ -28,19 +28,17 @@ print(badstats)
 
 ## To calculate the totals, I group by year and summarize Emissions per year.
 
-pm25totalsBalt <- baltData %>% 
-  group_by(year) %>% 
-  summarize(sum(Emissions)) %>%
-  mutate(Emissions = `sum(Emissions)`/1000)
-names(pm25totalsBalt) <- c("year", "emissions")
+baltData <- subset(baltData, Emissions < 1000)
+
+pm25Balt <- mutate(baltData, emissions=Emissions/1000)
 
 # Plot the result - suprising, since # observations are almost twice as high in 2008!
 
-png("plot2.png")
-barplot(pm25totalsBalt$emissions, 
-          ylab = "PM2.5 in tons", 
-          names.arg=pm25totalsBalt$year,
-          col="red", 
-          main="Total PM2.5 Emissions in Baltimore by Year")
+png("plot3.png")
+
+p <- ggplot(pm25Balt, aes(x =factor(year), y = emissions)) +
+  geom_bar(stat="identity")
+p + facet_grid(. ~ type)
+
 dev.off()
 
