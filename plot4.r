@@ -12,8 +12,8 @@ unzip("pm25data.zip", exdir = "./Data")
 
 ## Now we read the RDS files and convert them to data tables.
 
-summary <- tbl_df(readRDS("./Data/Source_Classification_Code.rds"))
-sourceclass <- tbl_df(readRDS("./Data/summarySCC_PM25.rds"))
+summary <- readRDS("./Data/Source_Classification_Code.rds")
+sourceclass <- readRDS("./Data/summarySCC_PM25.rds")
 
 ## Combustion sources related to coal - FIND THEM.
 
@@ -23,4 +23,22 @@ x <- grepl("Comb(.*)Coal", summary$EI.Sector)
 
 y <- summary[x,]
 
-sourceclass[sourceclass[,2] %in% y[,1], ]
+## Convert the SCC rows to characters in y
+
+i <- sapply(y, is.factor)
+y[i] <- lapply(y[i], as.character)
+
+# Subset sourceclass by proper SCC values, thanks to Karen Upright
+# from the class forums!
+
+z <- sourceclass[sourceclass[,2] %in% y[,1], ]
+
+# Across the US is a little unspecific so I just ran all of them.
+# Another option may be a lattice plot.
+
+png("plot4.png")
+p <- ggplot(z, aes(x =factor(year), y = Emissions/1000)) +
+  geom_bar(stat="identity")
+dev.off()
+
+
