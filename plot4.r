@@ -15,3 +15,12 @@ unzip("pm25data.zip", exdir = "./Data")
 summary <- tbl_df(readRDS("./Data/Source_Classification_Code.rds"))
 sourceclass <- tbl_df(readRDS("./Data/summarySCC_PM25.rds"))
 
+## Combustion sources related to coal - FIND THEM.
+
+x <- grepl("Comb(.*)Coal", summary$EI.Sector)
+
+## Subset rows of summary where x is true
+
+y <- summary[x,]
+
+sourceclass[sourceclass[,2] %in% y[,1], ]
