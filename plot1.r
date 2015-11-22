@@ -37,11 +37,13 @@ names(pm25totals) <- c("year", "emissions")
 # Plot the result - suprising, since # observations are almost twice as high in 2008!
 
 png("plot1.png")
-barplot(pm25totals$emissions, 
-        ylab = "PM2.5 in tons", 
-        names.arg=pm25totals$year,
-        col="blue", 
-        main="Total PM2.5 Emissions in U.S. by Year")
+with(pm25totals, plot(year, emissions,
+                      ylab = "PM2.5 in tons", 
+                      type = c("b"),
+                      col="blue",
+                      lwd="3",
+                      pch=7,
+                      main="Total PM2.5 Emissions in U.S. by Year"))
 dev.off()
 
 

@@ -19,26 +19,18 @@ sourceclass <- tbl_df(readRDS("./Data/summarySCC_PM25.rds"))
 onlyBalt <- grepl("24510", sourceclass$fips)
 baltData <- sourceclass[onlyBalt,]
 
-## The same issue in Q1 is present in the Baltimore set.
-
-badstats <- tally(group_by(baltData, year))
-print("The number of observations may mask the actual decrease in total pollutant
-      obseration per year")
-print(badstats)
-
-## To calculate the totals, I group by year and summarize Emissions per year.
-
+## Remove a pesky outlier
 baltData <- subset(baltData, Emissions < 1000)
 
+## Managable y-axis size
 pm25Balt <- mutate(baltData, emissions=Emissions/1000)
 
-# Plot the result - suprising, since # observations are almost twice as high in 2008!
-
-png("plot3.png")
+##plot it!
+png("plot3.png", width = 620, height = 620)
 
 p <- ggplot(pm25Balt, aes(x =factor(year), y = emissions)) +
   geom_bar(stat="identity")
-p + facet_grid(. ~ type)
+p + facet_grid(. ~ type) + labs(title="Particulate Matter per Year by Type across US")
 
 dev.off()
 

@@ -38,7 +38,8 @@ z <- sourceclass[sourceclass[,2] %in% y[,1], ]
 
 png("plot4.png")
 p <- ggplot(z, aes(x = factor(year), y = Emissions/1000)) +
-  geom_bar(stat="identity")
+  geom_bar(stat="identity") +
+  labs(title = "PM25 Levels from Coal Combustion", x = "Year", y = "PM25 in tons")
 p
 dev.off()
 
