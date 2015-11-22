@@ -37,8 +37,9 @@ z <- sourceclass[sourceclass[,2] %in% y[,1], ]
 # Another option may be a lattice plot.
 
 png("plot4.png")
-p <- ggplot(z, aes(x =factor(year), y = Emissions/1000)) +
+p <- ggplot(z, aes(x = factor(year), y = Emissions/1000)) +
   geom_bar(stat="identity")
+p
 dev.off()
 
 
