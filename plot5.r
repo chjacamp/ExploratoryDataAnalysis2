@@ -44,4 +44,4 @@ barplot(pm25BaltOnRoad$Emissions,
         names.arg=pm25BaltOnRoad$year,
         col="red", 
         main="Total PM2.5 Emissions in Baltimore by Year from Motor Vehicles")
-
+dev.off()
